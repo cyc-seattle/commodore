@@ -1,0 +1,30 @@
+{
+  "name": "@cyc-seattle/commodore",
+  "description": "This package contains common utilities CLI tools using commander-js and winston.",
+  "version": "0.0.1",
+  "author": "CYC Community Sailing Center",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepare": "pnpm run build",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "@commander-js/extra-typings": "^13.1.0",
+    "logform": "^2.7.0",
+    "winston": "^3.17.0",
+    "winston-console-format": "^1.0.8"
+  },
+  "peerDependencies": {
+  }
+}
