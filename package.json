@@ -5,16 +5,8 @@
   "author": "CYC Community Sailing Center",
   "license": "Apache-2.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "pnpm run build",
-    "build": "tsc --build",
-    "clean": "tsc --build --clean",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^13.1.0",
@@ -22,5 +14,15 @@
     "logform": "^2.7.0",
     "winston": "^3.18.3",
     "winston-console-format": "^1.0.8"
+  },
+  "prettier": "@cyc-seattle/ts-config/prettier",
+  "packageManager": "pnpm@10.34.6",
+  "devDependencies": {
+    "@cyc-seattle/ts-config": "^0.1.2",
+    "@types/node": "^22.20.5",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.11"
   }
 }
