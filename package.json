@@ -1,20 +1,39 @@
 {
   "name": "@cyc-seattle/commodore",
-  "description": "This package contains common utilities CLI tools using commander-js and winston.",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
+  "description": "Shared commander-js options and winston logging helpers for cyc-seattle CLI tools",
   "author": "CYC Community Sailing Center",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/cyc-seattle/commodore#readme",
+  "bugs": {
+    "url": "https://github.com/cyc-seattle/commodore/issues"
+  },
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyc-seattle/commodore.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.34.6",
+  "prettier": "@cyc-seattle/ts-config/prettier",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "pnpm run build",
-    "build": "tsc --build",
-    "clean": "tsc --build --clean",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^13.1.0",
@@ -22,5 +41,13 @@
     "logform": "^2.7.0",
     "winston": "^3.18.3",
     "winston-console-format": "^1.0.8"
+  },
+  "devDependencies": {
+    "@cyc-seattle/ts-config": "^0.1.2",
+    "@types/node": "^22.20.5",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.11"
   }
 }
