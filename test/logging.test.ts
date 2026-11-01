@@ -1,7 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { InvalidOptionArgumentError } from "@commander-js/extra-typings";
 import logform from "logform";
+import "winston";
 import { LoggingOption, OutputOption, VerboseOption } from "../src/logging.js";
+
+// Runs a log entry through a format and returns the text winston would write. winston sets the
+// level symbol on each entry, and registers the colors for its levels when it loads.
+function render(format: logform.Format, message: unknown): string {
+  const info = format.transform({ level: "info", [Symbol.for("level")]: "info", message });
+  if (typeof info !== "object") throw new Error("the format dropped the entry");
+  return (info as Record<symbol, unknown>)[Symbol.for("message")] as string;
+}
 
 // Commander invokes `option.parseArg(value, previous)` as a method call on the option, so the
 // parser can read `this` off the receiver. Calling it detached from the option would not
@@ -30,10 +39,16 @@ describe("VerboseOption", () => {
 });
 
 describe("OutputOption", () => {
-  it("maps a known format to its logform.Format", () => {
+  it("prints the message as JSON with the json format", () => {
     const option = new OutputOption();
     const format = option.parseArg!("json", undefined) as unknown as logform.Format;
-    expect(typeof format.transform).toBe("function");
+    expect(render(format, { a: 1 })).toBe('{"a":1}');
+  });
+
+  it("prints the message with util.inspect with the pretty format", () => {
+    const option = new OutputOption();
+    const format = option.parseArg!("pretty", undefined) as unknown as logform.Format;
+    expect(render(format, "text")).toContain("'text'");
   });
 
   it("throws for an unknown format, listing the valid choices", () => {
@@ -44,10 +59,21 @@ describe("OutputOption", () => {
 });
 
 describe("LoggingOption", () => {
-  it("maps a known format to its logform.Format", () => {
+  it("writes one JSON line with a timestamp with the json format", () => {
+    const option = new LoggingOption();
+    const format = option.parseArg!("json", undefined) as unknown as logform.Format;
+    const line = JSON.parse(render(format, "Started")) as Record<string, unknown>;
+    expect(line).toMatchObject({ level: "info", message: "Started" });
+    expect(line["timestamp"]).toEqual(expect.any(String));
+  });
+
+  it("writes colored text, not JSON, with the pretty format", () => {
     const option = new LoggingOption();
     const format = option.parseArg!("pretty", undefined) as unknown as logform.Format;
-    expect(typeof format.transform).toBe("function");
+    const line = render(format, "Started");
+    expect(line).toContain("Started");
+    expect(line).toContain("\u001b[");
+    expect(() => JSON.parse(line)).toThrow();
   });
 
   it("throws for an unknown format, listing the valid choices", () => {
