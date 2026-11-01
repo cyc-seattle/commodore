@@ -45,7 +45,7 @@ program.parse();
 
 ## Release
 
-Every merge to `main` releases from the PR title. The title must be a conventional commit.
+Every merge to `main` releases from the PR title, once CI passes. The title must be a conventional commit.
 
 | Title                                          | Release |
 | ---------------------------------------------- | ------- |
