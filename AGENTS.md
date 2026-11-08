@@ -2,6 +2,8 @@
 
 Guidance for coding agents working in this repository.
 
+Follow `cyc:conventions` (the rules shared by every cyc-seattle repo).
+
 ## Overview
 
 `@cyc-seattle/commodore` is a small npm library of shared [commander](https://github.com/tj/commander.js) options
